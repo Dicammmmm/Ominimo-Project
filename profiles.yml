@@ -1,0 +1,7 @@
+ominimo_transform:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "/opt/airflow/data/{{ env_var('DWH_NAME') }}"
+      threads: 4

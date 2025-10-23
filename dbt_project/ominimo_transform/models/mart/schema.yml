@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: fct_policy_quotes
+    description: "Fact table joining policies and quotes on quote_id"
+    columns:
+      - name: policy_id
+        description: "Unique policy identifier"
+        data_type: varchar(16)
+        tests:
+          - not_null
+          
+      - name: quote_id
+        description: "Quote identifier linking policies to quotes"
+        data_type: varchar(16)
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: "Unique customer identifier"
+        data_type: varchar(16)
+
+      - name: policy_created_at
+        description: "Timestamp when policy was created"
+        data_type: timestamp
+
+      - name: vehicle_make
+        description: "Vehicle manufacturer"
+        data_type: varchar(16)
+
+      - name: vehicle_model
+        description: "Vehicle model name"
+        data_type: varchar(16)
+
+      - name: vehicle_year
+        description: "Year of vehicle manufacture"
+        data_type: integer
+
+      - name: policy_status
+        description: "Current policy status"
+        data_type: varchar(16)
+
+      - name: product
+        description: "Type of insurance product"
+        data_type: varchar(16)
+
+      - name: price
+        description: "Quoted price offered to customer"
+        data_type: double precision
+
+      - name: technical_price
+        description: "Internal technical price calculation"
+        data_type: double precision
+
+      - name: quote_created_at
+        description: "Timestamp when quote was created"
+        data_type: timestamp

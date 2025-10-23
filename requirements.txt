@@ -1,0 +1,14 @@
+# Note: apache-airflow will be installed by Dockerfile with explicit version
+# We only list additional packages here
+
+# dbt packages
+dbt-core==1.10.13
+dbt-duckdb==1.9.6
+
+# Data processing
+pandas==2.2.3
+pyarrow==18.0.0
+duckdb==1.4.1
+
+# Utilities
+python-dotenv==1.0.1

@@ -1,0 +1,100 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: policies_raw
+        description: "Raw policy data from source files"
+
+      - name: quotes_raw
+        description: "Raw quote data from source files"
+
+models:
+  - name: stg_policies
+    description: "Staged and typed policy records with metadata"
+    columns:
+      - name: policy_id
+        description: "Unique policy identifier"
+        data_type: varchar(16)
+        tests:
+          - unique
+          - not_null
+
+      - name: quote_id
+        description: "Reference to originating quote"
+        data_type: varchar(16)
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: "Unique customer identifier"
+        data_type: varchar(16)
+
+      - name: created_at
+        description: "Timestamp when policy was created"
+        data_type: timestamp
+
+      - name: vehicle_make
+        description: "Vehicle manufacturer"
+        data_type: varchar(16)
+
+      - name: vehicle_model
+        description: "Vehicle model name"
+        data_type: varchar(16)
+
+      - name: vehicle_year
+        description: "Year of vehicle manufacture"
+        data_type: integer
+
+      - name: status
+        description: "Current policy status"
+        data_type: varchar(16)
+        tests:
+          - accepted_values:
+              values: ['Active', 'Cancelled', 'Expired']
+
+      - name: source_file
+        description: "Source file name from ingestion"
+        data_type: varchar(64)
+
+      - name: loaded_at
+        description: "Timestamp when record was loaded into staging"
+        data_type: timestamp
+
+  - name: stg_quotes
+    description: "Staged and typed quote records with metadata"
+    columns:
+      - name: quote_id
+        description: "Unique quote identifier"
+        data_type: varchar(16)
+        tests:
+          - unique
+          - not_null
+
+      - name: product
+        description: "Type of insurance product"
+        data_type: varchar(16)
+        tests:
+          - accepted_values:
+              values: ['FireTheft', 'ThirdParty', 'Comprehensive']
+
+      - name: price
+        description: "Quoted price offered to customer"
+        data_type: double precision
+
+      - name: technical_price
+        description: "Internal technical price calculation"
+        data_type: double precision
+
+      - name: created_at
+        description: "Timestamp when quote was created"
+        data_type: timestamp
+
+      - name: source_file
+        description: "Source file name (static for quotes)"
+        data_type: varchar(64)
+
+      - name: loaded_at
+        description: "Timestamp when record was loaded into staging"
+        data_type: timestamp

@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: kpi_business_metrics
+    description: "Aggregated business metrics by product, status, and vehicle attributes"
+    columns:
+      - name: product
+        description: "Type of insurance product"
+
+      - name: policy_status
+        description: "Current policy status"
+
+      - name: vehicle_make
+        description: "Vehicle manufacturer"
+
+      - name: vehicle_model
+        description: "Vehicle model"
+
+      - name: vehicle_year
+        description: "Year of vehicle manufacture"
+
+      - name: total_quotes
+        description: "Total number of unique quotes"
+
+      - name: total_policies
+        description: "Total number of unique policies"
+
+      - name: avg_premium
+        description: "Average quoted price"
+
+      - name: avg_technical_price
+        description: "Average technical price"
+
+      - name: conversion_ratio
+        description: "Ratio of policies to quotes"
+
+      - name: min_premium
+        description: "Minimum premium price"
+
+      - name: max_premium
+        description: "Maximum premium price"
+
+      - name: total_premium_value
+        description: "Total sum of all premiums"
+
+  - name: kpi_business_metrics_tableau
+    description: "Detailed policy-quote data for Tableau visualization"
+    columns:
+      - name: policy_id
+        description: "Unique policy identifier"
+
+      - name: quote_id
+        description: "Quote identifier"
+
+      - name: customer_id
+        description: "Unique customer identifier"
+
+      - name: policy_created_at
+        description: "Policy creation timestamp"
+
+      - name: quote_created_at
+        description: "Quote creation timestamp"
+
+      - name: vehicle_make
+        description: "Vehicle manufacturer"
+
+      - name: vehicle_model
+        description: "Vehicle model"
+
+      - name: vehicle_year
+        description: "Year of vehicle manufacture"
+
+      - name: policy_status
+        description: "Current policy status"
+
+      - name: product
+        description: "Insurance product type"
+
+      - name: price
+        description: "Quoted price"
+
+      - name: technical_price
+        description: "Technical price"
+
+      - name: price_markup
+        description: "Difference between price and technical price"
+
+      - name: converted_flag
+        description: "Binary flag: 1 if quote converted to policy, 0 otherwise"
