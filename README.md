@@ -62,7 +62,7 @@ cd ominimo-pipeline
 ```bash
 DWH_NAME=ominimo_dwh.duckdb
 DWH_FOLDER_PATH=/opt/airflow/data/
-RAW_FILES_PATH=/opt/airflow/data/
+RAW_FILES_PATH=/opt/airflow/data/raw/
 EXPORT_PATH=/opt/airflow/data/exports/
 ```
 
