@@ -64,6 +64,7 @@ DWH_NAME=ominimo_dwh.duckdb
 DWH_FOLDER_PATH=/opt/airflow/data/
 RAW_FILES_PATH=/opt/airflow/data/raw/
 EXPORT_PATH=/opt/airflow/data/exports/
+AIRFLOW_UID=50000
 ```
 
 3. **Add data files**  
