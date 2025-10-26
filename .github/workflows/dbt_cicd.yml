@@ -45,8 +45,8 @@ jobs:
         run: |
           cd dbt_project/ominimo_transform
           if [ -f ../../state/manifest.json ]; then
-            echo "Modified models and downstream dependencies:"
-            dbt list --select state:modified+ --state ../../state --profiles-dir ../..
+            echo "Modified models"
+            dbt list --select state:modified --state ../../state --profiles-dir ../..
           else
             echo "First run - all models would execute:"
             dbt list --profiles-dir ../..
