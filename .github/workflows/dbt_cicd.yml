@@ -1,0 +1,51 @@
+name: dbt cicd
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'dbt_project/**'
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - run: pip install -r requirements.txt
+
+      - name: Download previous state
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: dbt_ci.yml
+          name: dbt-manifest
+          path: ./state
+        continue-on-error: true
+
+      - name: Generate manifest
+        run: |
+          cd dbt_project/ominimo_transform
+          dbt parse --profiles-dir ../..
+
+      - name: Show models that would be rebuilt
+        run: |
+          cd dbt_project/ominimo_transform
+          if [ -f ../../state/manifest.json ]; then
+            echo "Only these models would run:"
+            dbt list --select state:modified+ --state ../../state --profiles-dir ../..
+          else
+            echo "First run - all models would execute"
+            dbt list --profiles-dir ../..
+          fi
+
+      - name: Save current state
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v3
+        with:
+          name: dbt-manifest
+          path: dbt_project/ominimo_transform/target/manifest.json

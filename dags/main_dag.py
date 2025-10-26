@@ -41,15 +41,9 @@ with DAG(
         python_callable=INGEST_FUNC,
     )
 
-    dbt_run = BashOperator(
-        task_id='dbt_transform',
-        bash_command='dbt run --project-dir /opt/airflow/dbt_project/ominimo_transform --profiles-dir /opt/airflow',
-        cwd='/opt/airflow/dbt_project/ominimo_transform',
-    )
-
-    dbt_test = BashOperator(
-        task_id='dbt_test',
-        bash_command='dbt test --project-dir /opt/airflow/dbt_project/ominimo_transform --profiles-dir /opt/airflow',
+    dbt_build = BashOperator(
+        task_id='dbt_build',
+        bash_command='dbt build --select state:modified+ --state /opt/airflow/dbt_state --project-dir /opt/airflow/dbt_project/ominimo_transform --profiles-dir /opt/airflow',
         cwd='/opt/airflow/dbt_project/ominimo_transform',
     )
 
@@ -58,4 +52,4 @@ with DAG(
         python_callable=EXPORT_FUNC,
     )
 
-    dwh_check >> ingest_task >> dbt_run >> dbt_test >> export_task
+    dwh_check >> ingest_task >> dbt_build >> export_task
