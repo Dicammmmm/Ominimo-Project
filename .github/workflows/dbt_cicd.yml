@@ -10,6 +10,9 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     
+    env:
+      DWH_NAME: placeholder_dwh.duckdb
+    
     steps:
       - uses: actions/checkout@v3
 
