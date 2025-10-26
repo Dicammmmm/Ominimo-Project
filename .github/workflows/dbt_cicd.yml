@@ -34,7 +34,7 @@ jobs:
       - name: Fetch manifest from main branch
         run: |
           mkdir -p ./state
-          git show origin/main:dbt_project/ominimo_transform/target/manifest.json > ./state/manifest.json 2>/dev/null || echo "No previous manifest"
+          git show origin/main:dbt_project/ominimo_transform/target/manifest.json > ./state/manifest.json 2>/dev/null && echo "Previous manifest found" || rm -f ./state/manifest.json
 
       - name: Generate current manifest
         run: |
