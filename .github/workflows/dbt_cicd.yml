@@ -1,4 +1,4 @@
-name: dbt cicd
+name: dbt CI/CD
 
 on:
   pull_request:
@@ -15,10 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      DWH_NAME: placeholder_dwh.duckdb
+      DWH_NAME: ci_dwh.duckdb
     
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v4
         with:
@@ -26,14 +28,12 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Restore previous state
-        uses: actions/cache/restore@v3
-        with:
-          path: ./state/manifest.json
-          key: dbt-manifest-${{ github.sha }}
-          restore-keys: |
-            dbt-manifest-
-        continue-on-error: true
+      - name: Download previous state from main
+        run: |
+          git fetch origin main
+          git checkout origin/main -- dbt_project/ominimo_transform/target/manifest.json 2>/dev/null || true
+          mkdir -p ./state
+          mv dbt_project/ominimo_transform/target/manifest.json ./state/ 2>/dev/null || echo "No previous manifest found"
 
       - name: Generate manifest
         run: |
@@ -51,9 +51,12 @@ jobs:
             dbt list --profiles-dir ../..
           fi
 
-      - name: Save current state
-        if: github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v3
-        with:
-          path: dbt_project/ominimo_transform/target/manifest.json
-          key: dbt-manifest-${{ github.sha }}
+      - name: Commit manifest to main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p dbt_project/ominimo_transform/target
+          git add dbt_project/ominimo_transform/target/manifest.json -f
+          git commit -m "Update dbt manifest [skip ci]" || echo "No changes to manifest"
+          git push origin main
