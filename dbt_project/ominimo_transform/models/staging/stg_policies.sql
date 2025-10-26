@@ -19,7 +19,8 @@ SELECT
     status::VARCHAR(16) AS status,
     source_file::VARCHAR(64) AS source_file,
     created_at::TIMESTAMP AS created_at,
-    CURRENT_TIMESTAMP AS loaded_at
+    CURRENT_TIMESTAMP AS loaded_at,
+    'DBT_CICD_TEST'::VARCHAR(16) AS test
 FROM
     source
 
