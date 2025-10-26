@@ -16,7 +16,6 @@ SELECT
     'quotes_raw.parquet'::VARCHAR(64) AS source_file,
     created_at::TIMESTAMP AS created_at,
     CURRENT_TIMESTAMP AS loaded_at
-    'test' AS test
 FROM
     source
 
